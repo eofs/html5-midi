@@ -1,5 +1,5 @@
 define(['stream'], function(Stream) {
-
+    // Based on https://github.com/gasman/jasmid
     function readChunk(stream) {
         var id = stream.read(4);
         var length = stream.readInt32();
