@@ -1,5 +1,5 @@
 define(['stream'], function(Stream) {
-    // Based on https://github.com/gasman/jasmid
+
     function readChunk(stream) {
         var id = stream.read(4);
         var length = stream.readInt32();
@@ -250,12 +250,16 @@ define(['stream'], function(Stream) {
                         output += 'Track '+ t + '\n';
                         for (var e in this.tracks[t]) {
                             var event = this.tracks[t][e]
+                            var text;
                             output += '(' + event.delta + ') ' + event.subtype;
-                            var text =
+                            if (event.subtype == 'noteOff' || event.subtype == 'noteOn') {
+                              text = event.note + '|' + event.velocity;
+                            } else {
+                              text =
                                 event.text
                                 || event.value
-                                || event.note
                                 || event.microsecondsPerBeat
+                            }
                             if (text) output += ' [' + text + ']';
                             output += '\n';
                         }
